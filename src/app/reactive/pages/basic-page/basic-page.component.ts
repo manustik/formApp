@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { ValidatorsService } from '../../../shared/services/validators.service';
 
 // const rtx5090 = {
 //   name: 'RTX 5090' ,
@@ -23,7 +24,10 @@ export class BasicPageComponent implements OnInit{
 
   public myForm!: FormGroup;
  
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService
+    ) {}
  
   ngOnInit(): void {
     this.myForm = this.fb.group({
@@ -33,9 +37,8 @@ export class BasicPageComponent implements OnInit{
     });
   }
 
-    isValidField( field: string ): boolean | null{
-      return this.myForm.controls[field].errors
-      && this.myForm.controls[field].touched;
+    isValidField( field: string ){
+      return this.validatorsService.isValidField( this.myForm, field )
     }
     getFieldError( field: string ): string | null{
 
